@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style_belt.css') }}">
+    <title>Galeria</title>
+</head>
+<body>
+<ul>
+  <li><a href="{{ url_for('home') }}">Strona domowa</a></li>
+    <li><a href="{{ url_for('gallery') }}">Galeria</a></li>
+  <li><a href="{{ url_for('about') }}">O mnie</a></li>
+  <li><a href="{{ url_for('contact') }}">Kontakt</a></li>
+</ul>
+<h1 class="napis">Moje portfolio</h1>
+<div class="container">
+
+    <div class="photo1">
+        <img src="{{ url_for('static', filename= 'photo1.jpg') }}" width="800" height="575" alt="Animal"> <br>
+    </div>
+
+    <div class="photo2">
+        <img src="{{ url_for('static', filename= 'photo2.jpg') }}" width="800" height="575" alt="Animal"> <br>
+    </div>
+
+    <div class="photo3">
+        <img src="{{ url_for('static', filename= 'photo3.jpg') }}" width="800" height="575" alt="Animal"> <br>
+    </div>
+
+
+</div>
+</body>
+</html>

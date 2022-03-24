@@ -1,0 +1,47 @@
+body{
+    background-color: darkred;
+}
+
+.napis{
+    font-size: 200px;
+    text-align: center;
+    font-style: italic;
+}
+.container{
+
+    display: block;
+    text-align: center;
+    justify-content: center;
+}
+
+.photo1{
+    margin: 50px;
+    margin-left: auto;
+    margin-right: auto;
+     width: 1200px;
+
+    background-color: white;
+}
+
+.photo2{
+     margin: 50px;
+    margin-left: auto;
+    margin-right: auto;
+     width: 1200px;
+    background-color: white;
+}
+
+.photo3{
+     margin: 50px;
+    margin-left: auto;
+    margin-right: auto;
+     width: 1200px;
+    background-color: white;
+}
+
+
+.photo1:hover {transform: scale(1.2); }
+.photo2:hover {transform: scale(1.2); }
+.photo3:hover {transform: scale(1.2); }
+
+

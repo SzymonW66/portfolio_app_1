@@ -19,6 +19,10 @@ def gallery():
 def contact():
     return render_template('contact.html')
 
+@app.route('/child')
+def child():
+    return render_template('child.html')
+
 @app.errorhandler(404)
 def not_found_error(error):
      return render_template('404.html'), 404

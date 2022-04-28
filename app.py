@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def home():  # put application's code here
+def home():
     return render_template('index.html')
 
 @app.route('/about')
@@ -33,6 +33,5 @@ def error_not_found():
     response.headers['X-Something'] = 'A value'
     return response
 
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=8080)

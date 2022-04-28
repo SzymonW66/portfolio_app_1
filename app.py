@@ -7,6 +7,10 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
+@app.route('/index2')
+def index2():
+    return render_template('index2.html')
+
 @app.route('/about')
 def about():
     return render_template('about.html')
@@ -35,3 +39,4 @@ def error_not_found():
 
 if __name__ == '__main__':
     app.run(port=8080)
+#TODO- dodać dziedziczenie navbara do każdego html a następnie usunąć te nie potrzebne

@@ -39,10 +39,10 @@ def rock():
 def gallery2():
     return render_template('gallery2.html')
 
+
 @app.route('/sendmail')
 def sendmail():
     msg = Message('Hello', sender='yourId@gmail.com', recipients=['someone1@gmail.com'])
-
     msg.body = "Hello Flask message sent from Flask-Mail"
     mail.send(msg)
     return "Sent"

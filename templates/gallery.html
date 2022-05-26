@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<title>Galeria nr 1</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style_belt.css') }}">
-    <title>Galeria</title>
+    {% extends "index2.html" %}
+    {%  block title %} Galeria {% endblock %} {% set active_page = "index2.html" -%}
 </head>
-<body>
-{#<ul>#}
-{#  <li><a href="/">Strona domowa</a></li>#}
-{#    <li><a href="{{ url_for('gallery') }}">Galeria</a></li>#}
-{#  <li><a href="{{ url_for('about') }}">O mnie</a></li>#}
-{#  <li><a href="{{ url_for('contact') }}">Kontakt</a></li>#}
-{#</ul>#}
+{% block body %}
 <h1 class="napis">Moje portfolio</h1>
 <div class="container">
+{#    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">#}
 
     <div class="photo1">
         <img src="{{ url_for('static', filename= 'photo1.jpg') }}" width="800" height="575" alt="Animal"> <br>
@@ -30,5 +26,6 @@
 
 
 </div>
-</body>
+
+{% endblock %}
 </html>

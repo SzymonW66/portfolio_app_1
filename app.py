@@ -1,7 +1,15 @@
 from flask import Flask, render_template, url_for, make_response
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
+mail = Mail(app)
 
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'szymekwajs@gmail.com'
+app.config['MAIL_PASSWORD'] = '*****'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
 
 @app.route('/')
 def home():
@@ -23,9 +31,22 @@ def gallery():
 def contact():
     return render_template('contact.html')
 
-@app.route('/child')
-def child():
-    return render_template('child.html')
+@app.route('/rock')
+def rock():
+    return render_template('rock.html')
+
+@app.route('/gallery2')
+def gallery2():
+    return render_template('gallery2.html')
+
+@app.route('/sendmail')
+def sendmail():
+    msg = Message('Hello', sender='yourId@gmail.com', recipients=['someone1@gmail.com'])
+
+    msg.body = "Hello Flask message sent from Flask-Mail"
+    mail.send(msg)
+    return "Sent"
+    return render_template('send_mail.html')
 
 @app.errorhandler(404)
 def not_found_error(error):
@@ -39,4 +60,4 @@ def error_not_found():
 
 if __name__ == '__main__':
     app.run(port=8080)
-#TODO- dodać dziedziczenie navbara do każdego html a następnie usunąć te nie potrzebne
+#TODO- Zrobić kolejną galerie w oparciu o booststrap 3 rzędy 3 kolumny z zdjęciami

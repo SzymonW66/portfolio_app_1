@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<title>O mnnie </title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style_belt.css') }}">
-    <title>O mnie</title>
+    {% extends "index2.html" %}
+    {% block title %} O mnie {% endblock %} {% set active_page = "index2" -%}
+
 </head>
-<body>
-{#<ul>#}
-{#  <li><a href="/">Strona domowa</a></li>#}
-{#    <li><a href="{{ url_for('gallery') }}">Galeria</a></li>#}
-{#  <li><a href="{{ url_for('about') }}">O mnie</a></li>#}
-{#  <li><a href="{{ url_for('contact') }}">Kontakt</a></li>#}
-{#</ul>#}
+{% block body %}
 
 <h1> TO JEST STRONA O MNIE</h1>
-</body>
+{% endblock %}
 </html>

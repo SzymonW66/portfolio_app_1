@@ -1,0 +1,7 @@
+.formField{font: inherit; border: 1px solid #ccc; border-radius: 3px; margin: 3px 0 10px 0; padding: 3px 0}
+textarea.formField{width: 300px; height: 70px}
+#sendBtn{cursor:pointer;background: #ccc; background: linear-gradient(#ddd 0, #eee 100%); border: 1px solid #ccc; line-height: 32px; font-size: 14px;padding: 0 25px; border-radius: 3px}
+#send_form_status{border: 1px dashed #ccc;display: none; padding: 0 10px; margin: 10px 0}
+.status_ok{color: #060}
+.status_err{color: #F00}
+

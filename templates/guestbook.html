@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title> Księga gości </title>
+    {% extends "index2.html" %}
+    <meta charset="UTF-8">
+    {% set active_page = "index2" -%}
+</head>
+{% block body %}
+<main class="container">
+    <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Księga gości</h1>
+        <p class="lead">Tą strone odwiedziły te osoby i postanowiły zostawić wiadomość</p>
+    </div>
+    {% for post in posts %}
+
+        <div class='post'>
+            <h2>{{ post['title'] }}</h2>
+            <p class="guestbook-content">{{ post['content'] }}</p>
+            <hr class="hr-margin">
+            <div class="row justify-content-around guestbook-font-size">
+                <div class="col-md-3 guestbook-item">
+                    <p class="guestbook-item">Created by {{ post['name'] }}</p>
+
+                </div>
+                <div class="col-md-3"></div>
+                <div class="guestbook-last-item col-md-6">
+                    <p class="guestbook-item">{{ post['created'] }}</p>
+                </div>
+            </div>
+
+        </div>
+    {% endfor %}
+</main>
+{% endblock %}
+</body>
+</html>

@@ -5,13 +5,22 @@ from flask import abort, redirect, url_for, make_response
 from flask import Flask, flash, abort
 from flask_mail import Mail, Message
 import sqlite3
-# from flask_dance.contrib.github import make_github_blueprint, github
+from flask_dance.contrib.github import make_github_blueprint, github
 import secrets
 import os
 import requests
 
 app = Flask(__name__)
 mail = Mail(app)
+
+app.secret_key = secrets.token_hex(16)  # generujemy sekretny klucz aplikacji
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
+github_blueprint = make_github_blueprint(
+    client_id="072cb12cb5ea91611253",  # tu wklej swoj wygenerowany id z github
+    client_secret="fb3842b64dfe3fef2572dea8ceeb4d0093c94cea",  # tu wklej swoj
+    # wygenerowany client secret z github
+)
 
 app.config['SECRET_KEY'] = '1234'
 app.config['MAIL_SERVER']='smtp.gmail.com'
@@ -152,6 +161,19 @@ def guestbookAdmin():
     posts = conn.execute('SELECT * FROM posts ORDER BY id DESC').fetchall()
     conn.close()
     return render_template('guestbook-admin.html', posts=posts)
+
+
+@app.route("/login")
+def github_login():
+    if not github.authorized:
+        return redirect(url_for('github.login'))
+    else:
+        account_info = github.get('/user')
+        if account_info.ok:
+            account_info_json = account_info.json()
+            return '<h1>Your Github name is {}'.format(account_info_json['login'])
+    return '<h1>Request failed!</h1>'
+
 
 @app.errorhandler(404)
 def not_found_error(error):

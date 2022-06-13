@@ -21,6 +21,7 @@ github_blueprint = make_github_blueprint(
     client_secret="fb3842b64dfe3fef2572dea8ceeb4d0093c94cea",  # tu wklej swoj
     # wygenerowany client secret z github
 )
+app.register_blueprint(github_blueprint, url_prefix='/login')
 
 app.config['SECRET_KEY'] = '1234'
 app.config['MAIL_SERVER']='smtp.gmail.com'

@@ -24,36 +24,43 @@ github_blueprint = make_github_blueprint(
 app.register_blueprint(github_blueprint, url_prefix='/login')
 
 app.config['SECRET_KEY'] = '1234'
-app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = 'szymekwajs@gmail.com'
 app.config['MAIL_PASSWORD'] = '*****'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
+
 @app.route('/')
 def home():
     return render_template('index.html')
+
 
 @app.route('/index2')
 def index2():
     return render_template('index2.html')
 
+
 @app.route('/about')
 def about():
     return render_template('about.html')
+
 
 @app.route('/gallery')
 def gallery():
     return render_template('gallery.html')
 
+
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
 
+
 @app.route('/rock')
 def rock():
     return render_template('rock.html')
+
 
 @app.route('/gallery2')
 def gallery2():
@@ -156,6 +163,7 @@ def guestbook():
     conn.close()
     return render_template('guestbook.html', posts=posts)
 
+
 @app.route('/guestbook-admin', methods=('GET', 'POST'))
 def guestbookAdmin():
     conn = get_db_connection()
@@ -176,15 +184,45 @@ def github_login():
     return '<h1>Request failed!</h1>'
 
 
+def format_response(city):
+    weather_key = "6a2d34ead1a8f0627c3933eb6dd85d07"  # tu wklej swój KLUCZ API
+    url = "https://api.openweathermap.org/data/2.5/weather"
+    params = {"APPID": weather_key, "q": city, "units": "Metric"}
+    response = requests.get(url, params=params)
+    weather = response.json()
+    name = weather['name']
+    desc = weather['weather'][0]['description']
+    temp = weather['main']['temp']
+    hum = weather['main']['humidity']
+    wind = weather['wind']['speed']
+    clouds = weather['clouds']['all']
+    pres = weather['main']['pressure']
+    return "City %s Condition: %s Temperature : %s  Wind : %s Clouds : %s Pressure : %s (C) Humadity : %s word" % (
+    name, desc, temp, wind, clouds, pres, hum)
+
+
+@app.route('/weather', methods=['POST', 'GET'])
+def weather():
+    if request.method == 'GET':
+        return render_template('weather.html')
+    if request.method == 'POST':
+        city = request.form['city']
+        weather_data = format_response(city)
+        return render_template('weather.html', data=weather_data)
+    return render_template('weather.html')
+
+
 @app.errorhandler(404)
 def not_found_error(error):
-     return render_template('404.html'), 404
+    return render_template('404.html'), 404
+
 
 @app.route('/error_not_found')
 def error_not_found():
     response = make_response(render_template('404.html', name='ERROR 404'), 404)
     response.headers['X-Something'] = 'A value'
     return response
+
 
 if __name__ == '__main__':
     app.run(port=8080)

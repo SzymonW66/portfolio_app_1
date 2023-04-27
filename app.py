@@ -1,8 +1,9 @@
-from flask import Flask
+from flask import Flask, Response
 from flask import request
 from flask import render_template
 from flask import abort, redirect, url_for, make_response
-from prometheus_client import start_http_server, Counter
+from prometheus_client import start_http_server, Counter, Histogram, Summary, generate_latest
+from grafana_api.grafana_face import GrafanaFace
 from flask import Flask, flash, abort
 from flask_mail import Mail, Message
 import sqlite3
@@ -16,6 +17,13 @@ start_http_server(8000)
 mail = Mail(app)
 
 HTTP_REQUESTS = Counter('http_requests_total', 'Total HTTP Requests')
+grafana_api = GrafanaFace(auth=('admin', 'admin'), host='localhost', port=3000, protocol='http')
+
+REQUEST_COUNT = Counter('flask_app_request_count', 'Total count of requests served by the application')
+REQUEST_LATENCY = Histogram('flask_app_request_latency_seconds', 'Latency of a request to the application')
+REQUEST_SIZE = Summary('flask_app_request_size_bytes', 'Size of a request to the application')
+RESPONSE_SIZE = Summary('flask_app_response_size_bytes', 'Size of a response from the application')
+
 
 app.secret_key = secrets.token_hex(16)  # generujemy sekretny klucz aplikacji
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
@@ -41,12 +49,25 @@ def home():
     HTTP_REQUESTS.inc()
     return render_template('index.html')
 
+@app.route('/hello')
+def hello():
+    with REQUEST_COUNT.count_exceptions():
+        with REQUEST_LATENCY.time():
+            with REQUEST_SIZE.observe(request.content_length or 0):
+                return 'Hello, world!'
+
+@app.route('/metrics')
+def metrics():
+    return Response(generate_latest(), mimetype='text/plain; version=0.0.4; charset=utf-8')
 
 @app.route('/index2')
 def index2():
     HTTP_REQUESTS.inc()
     return render_template('index2.html')
 
+@app.route('/grafana')
+def grafana():
+    return grafana_api.search(query='')
 
 @app.route('/about')
 def about():

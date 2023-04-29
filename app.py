@@ -6,6 +6,7 @@ from prometheus_client import start_http_server, Counter, Histogram, Summary, ge
 from grafana_api.grafana_face import GrafanaFace
 from flask import Flask, flash, abort
 from flask_mail import Mail, Message
+from prometheus_flask_exporter import PrometheusMetrics
 import sqlite3
 from flask_dance.contrib.github import make_github_blueprint, github
 import secrets
@@ -15,6 +16,7 @@ import requests
 app = Flask(__name__)
 start_http_server(8000)
 mail = Mail(app)
+metrics = PrometheusMetrics(app)
 
 HTTP_REQUESTS = Counter('http_requests_total', 'Total HTTP Requests')
 grafana_api = GrafanaFace(auth=('admin', 'admin'), host='localhost', port=3000, protocol='http')
@@ -24,6 +26,7 @@ REQUEST_LATENCY = Histogram('flask_app_request_latency_seconds', 'Latency of a r
 REQUEST_SIZE = Summary('flask_app_request_size_bytes', 'Size of a request to the application')
 RESPONSE_SIZE = Summary('flask_app_response_size_bytes', 'Size of a response from the application')
 
+metrics.info('app_info', 'Application info', version='1.0.3')
 
 app.secret_key = secrets.token_hex(16)  # generujemy sekretny klucz aplikacji
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
